@@ -1,0 +1,138 @@
+<!-- pagamento.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pagamento</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://sdk.mercadopago.com/js/v2"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .form {
+      max-width: 400px;
+      margin: auto;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .radio-group {
+      display: flex;
+      justify-content: space-between;
+      margin: 15px 0;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    button {
+      background: #e50914;
+      color: white;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 6px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .resumo {
+      background: #f2f2f2;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Preencha os dados do cartão</h2>
+
+  <div class="form">
+    <div class="resumo">
+      Valor: <strong>R$ <span id="valorExibido">0,00</span></strong>
+    </div>
+
+    <form id="form-pagamento" method="POST" action="/pagar">
+      <input type="email" name="email" placeholder="Seu e-mail" required>
+      <input type="text" data-checkout="cardNumber" placeholder="Número do Cartão" required>
+      <input type="text" data-checkout="cardExpirationMonth" placeholder="Mês (MM)" required>
+      <input type="text" data-checkout="cardExpirationYear" placeholder="Ano (YY)" required>
+      <input type="text" data-checkout="securityCode" placeholder="CVV" required>
+      <input type="text" data-checkout="cardholderName" placeholder="Nome no Cartão" required>
+      <input type="text" name="doc_number" placeholder="CPF" required>
+
+      <label>Forma de pagamento</label>
+      <div class="radio-group">
+        <label><input type="radio" name="tipo" value="credito" checked> Crédito</label>
+        <label><input type="radio" name="tipo" value="debito"> Débito</label>
+      </div>
+
+      <input type="hidden" name="token" id="token">
+      <input type="hidden" name="payment_method_id" id="payment_method_id">
+      <input type="hidden" name="issuer_id" id="issuer_id">
+      <input type="hidden" name="valor" id="valorSelecionado" />
+
+      <button type="submit">Iniciar Assinatura</button>
+    </form>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const valor = urlParams.get("valor") || "0.00";
+    document.getElementById("valorSelecionado").value = valor;
+    document.getElementById("valorExibido").innerText = parseFloat(valor).toFixed(2);
+
+    const mp = new MercadoPago('SUA_PUBLIC_KEY_AQUI');
+
+    const cardForm = mp.cardForm({
+      amount: valor,
+      autoMount: true,
+      form: {
+        id: "form-pagamento",
+        cardholderName: { id: "form-pagamento", placeholder: "Nome no cartão" },
+        cardNumber: { id: "form-pagamento", placeholder: "Número do cartão" },
+        expirationDate: { id: "form-pagamento", placeholder: "MM/YY" },
+        securityCode: { id: "form-pagamento", placeholder: "CVV" },
+        identificationType: "CPF",
+        identificationNumber: "doc_number",
+        cardholderEmail: "email"
+      },
+      callbacks: {
+        onFormMounted: error => {
+          if (error) return alert("Erro ao montar formulário");
+        },
+        onSubmit: event => {
+          event.preventDefault();
+          const form = document.getElementById("form-pagamento");
+
+          cardForm.createCardToken().then(data => {
+            document.getElementById("token").value = data.token;
+            document.getElementById("payment_method_id").value = cardForm.getCardFormData().paymentMethodId;
+            document.getElementById("issuer_id").value = cardForm.getCardFormData().issuerId;
+            form.submit();
+          }).catch(error => alert("Erro ao gerar token do cartão"));
+        }
+      }
+    });
+  </script>
+</body>
+</html>

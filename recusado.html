@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento Recusado</title>
+  <style>
+    body {
+      background-color: #141414;
+      color: #ffffff;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    .container {
+      padding: 30px;
+      background-color: #1f1f1f;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #e50914;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #ffffffb3;
+    }
+
+    a {
+      margin-top: 30px;
+      display: inline-block;
+      text-decoration: none;
+      color: #ffffff;
+      background-color: #e50914;
+      padding: 12px 24px;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+
+    a:hover {
+      background-color: #b00610;
+    }
+
+    .icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">❌</div>
+    <h1>Pagamento Recusado</h1>
+    <p>Infelizmente, não conseguimos processar seu pagamento.</p>
+    <p>Verifique os dados ou tente novamente mais tarde.</p>
+    <a href="/">Tentar novamente</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!-- planos.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Escolha um Plano</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    .planos {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .plano {
+      border: 2px solid #e50914;
+      border-radius: 10px;
+      padding: 20px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .plano:hover {
+      background: #f8f8f8;
+    }
+
+    .plano h2 {
+      margin: 0 0 10px;
+    }
+
+    .plano button {
+      background: #e50914;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Escolha seu plano</h1>
+
+  <div class="planos">
+    <div class="plano">
+      <h2>Plano de 30 dias</h2>
+      <p>R$ 19,90</p>
+      <form action="pagamento.html" method="GET">
+        <input type="hidden" name="valor" value="19.90">
+        <button type="submit">Selecionar</button>
+      </form>
+    </div>
+
+    <div class="plano">
+      <h2>Plano de 60 dias</h2>
+      <p>R$ 34,90</p>
+      <form action="pagamento.html" method="GET">
+        <input type="hidden" name="valor" value="34.90">
+        <button type="submit">Selecionar</button>
+      </form>
+    </div>
+
+    <div class="plano">
+      <h2>Plano de 90 dias</h2>
+      <p>R$ 49,90</p>
+      <form action="pagamento.html" method="GET">
+        <input type="hidden" name="valor" value="49.90">
+        <button type="submit">Selecionar</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
